@@ -51,7 +51,11 @@ public class ModifiableList<E> extends AbstractList<E>{
 		// 没有问题的话，那么我们就再检查一下容量是否足够添加新元素
 		ensureCapacity();
 		// 如果容量没问题的话，那么我们就真正添加元素了
-		elementData[size] = element;
+		// 我们先判断一下 index 是不是刚好添加在 size 位置，如果是的话，那么我们也不用位移了，直接添加即可
+		if(size - index > 0) {
+			System.arraycopy(elementData, index, elementData, index+1, size - index);
+		}
+		elementData[index] = element;
 		// 维护一下 size 和 modCount
 		size++;
 		modCount++;
